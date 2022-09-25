@@ -1,4 +1,5 @@
 # Youtube 뉴렉처 JSP 강의 내용
+> reference link: [GitHub-1](https://github.com/tmedcount/newLecture-JSP), [GitHub-2](https://github.com/jihoa/newlecture_servlet/commits/main?after=19c172516102d88672b972c454e468379b4a7797+34&branch=main&qualified_name=refs%2Fheads%2Fmain)
 
 <br>
 
