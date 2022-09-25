@@ -16,3 +16,8 @@
 * web.xml을 강의에서 처럼 복붙한 경우 web.xml에서 Nana 관련 내용을 삭제해야 한다. 
 * 프로젝트 이름에 우클릭 해야 하며 source folder는 src/main/java이다. (강의: src 폴더에 우클릭) - 우클릭 후 New>Servlet으로 해야한다. (강의: New >. Class) 
 * Nana Servlet을 호출하는 url 변경 시 web.xml에서 url-pattern 태그를 수정한다.
+
+
+
+### 강의 참고사항(17강)
+* [Get vs Post 차이점 참고 링크](https://velog.io/@songyouhyun/Get%EA%B3%BC-Post%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%95%84%EC%8B%9C%EB%82%98%EC%9A%94)
