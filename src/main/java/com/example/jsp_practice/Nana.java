@@ -18,8 +18,18 @@ public class Nana extends HttpServlet {
 
         PrintWriter out = resp.getWriter();
 
-        for (int i = 0; i < 100; i++) {
-            out.println((i + 1) + " : 안녕 Servlet!<br>");
+        /*
+        http://localhost/hello   => GET
+        http://localhost/hello?cnt=3   => GET		쿼리 스트링: ?를 쓰고 키값을 전달할수있다.
+        추가적으로 옵션을 읽어서 그옵션에 맞는 문서를 줘야겠다 해서 쓴다.
+        hello 를 3번만 반복하는 hello 문서를 반복한다.
+        */
+
+        int cnt = Integer.parseInt(req.getParameter("cnt"));
+        for (int i = 0; i < cnt; i++) {
+            out.println("안녕 Servlet <br>");
         }
+
+
     }
 }
