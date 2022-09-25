@@ -14,6 +14,9 @@ public class Nana extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         PrintWriter out = resp.getWriter();
-        out.println("Hello ~~~ here is Nana!");
+
+        for (int i = 0; i < 100; i++) {
+            out.println((i + 1) + " :Hello Servlet!<br>");
+        }
     }
 }
