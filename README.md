@@ -21,3 +21,12 @@
 
 ### 강의 참고사항(17강)
 * [Get vs Post 차이점 참고 링크](https://velog.io/@songyouhyun/Get%EA%B3%BC-Post%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%95%84%EC%8B%9C%EB%82%98%EC%9A%94)
+
+
+### 강의 참고사항(25강)
+* 상태 유지를 위한 5가지 방법
+  * application
+  * session
+  * cookie
+  * hidden input
+  * querystring
