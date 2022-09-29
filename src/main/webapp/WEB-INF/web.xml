@@ -5,13 +5,26 @@
          version="4.0"
         metadata-complete="false">
 
-<!--    <servlet>-->
-<!--        <servlet-name>na</servlet-name>-->
-<!--        <servlet-class>com.example.jsp_practice.Nana</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>na</servlet-name>-->
-<!--        <url-pattern>/hello</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <!--
+    <servlet>
+        <servlet-name>na</servlet-name>
+        <servlet-class>com.example.jsp_practice.Nana</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>na</servlet-name>
+        <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+    -->
+
+    <!--
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>com.example.jsp_practice.Filter.CharacterEncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    -->
 
 </web-app>
