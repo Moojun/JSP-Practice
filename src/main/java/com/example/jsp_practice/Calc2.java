@@ -1,5 +1,6 @@
 package com.example.jsp_practice;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,28 +17,44 @@ public class Calc2 extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
+        ServletContext application = req.getServletContext();
+
         PrintWriter out = resp.getWriter();
 
-        String x_ = req.getParameter("x");
-        String y_ = req.getParameter("y");
+        String v_ = req.getParameter("value");
         String operator = req.getParameter("operator");
 
-        int x = 0, y = 0;
+        int v = 0;
+        if (!v_.equals(""))
+            v = Integer.parseInt(v_);
 
-        if (!x_.equals("")) {
-            x = Integer.parseInt(x_);
+        // 계산
+        if (operator.equals("=")) {
+
+            int x = (Integer) application.getAttribute("value");    // 담겨있던 값
+            int y = v;  // 사용자가 두 번째로 입력한 값
+            String op = (String) application.getAttribute("operator");
+
+            int result = 0;
+
+            if (op.equals("+")){
+                result = x + y;
+            }
+            else {
+                result = x - y;
+            }
+
+            out.println("계산 결과는 : " + result);
+
         }
-        if (!y_.equals("")) {
-            y = Integer.parseInt(y_);
+        // 값을 저장
+        else {
+            application.setAttribute("value", v);
+            application.setAttribute("operator", operator);
         }
 
-        int result = 0;
-        if (operator.equals("덧셈"))
-            result = x + y;
-        else
-            result = x - y;
 
-        out.println("계산 결과 : " + result);
+
 
     }
 }
