@@ -30,3 +30,25 @@
   * cookie
   * hidden input
   * querystring
+
+### 강의 참고사항(28강. WAS가 현재 사용자(Session)을 인식하는 방식)
+
+* 같은 브라우저(Chrome, etc) 이면 동일한 Session 값을 가진다. 하지만 브라우저를 닫으면 값이 사라진다. 다시 열면 SID가 사라진다. 
+* 다른 브라우저의 경우(ex. Chrome vs FireFox), SessionID 값이 다르다.
+
+
+
+세션 메소드
+
+```java
+void setAttribute(String name, Object value) // 지정된 이름으로 객체를 설정
+Object getAttribute(String name) // 지정된 이름의 객체를 반환
+void invalidate() // 세션에서 사용되는 객체들을 바로 해제. 저장소를 비울 때 사용되는 메소드이다.
+  
+void setMaxInactiveInterval(int interval) // 세션 타임아웃을 정수(초)로 설정
+boolean isNew() // 세션이 새로 생성되었는지를 확인
+Long getCreationTime() // 세션이 시작된 시간을 반환. 1970년 1월 1일을 시작으로 하는 밀리초
+long getLastAccessedTime() // 마지막 요청 시간. 1970년 1월 1일을 시작으로 하는 밀리초
+  
+  
+```
