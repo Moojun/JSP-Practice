@@ -3,10 +3,7 @@ package com.example.jsp_practice;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -18,8 +15,9 @@ public class Calc2 extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        ServletContext application = req.getServletContext();
-        HttpSession session = req.getSession();
+        //ServletContext application = req.getServletContext();
+        //HttpSession session = req.getSession();
+        Cookie [] cookies = req.getCookies();
 
         PrintWriter out = resp.getWriter();
 
@@ -34,10 +32,27 @@ public class Calc2 extends HttpServlet {
         if (operator.equals("=")) {
 
             //int x = (Integer) application.getAttribute("value");    // 담겨있던 값
-            int x = (Integer) session.getAttribute("value");    // 담겨있던 값
+            //int x = (Integer) session.getAttribute("value");    // 담겨있던 값
+
+            int x = 0;
+            for (Cookie c : cookies) {
+                if (c.getName().equals("value")) {
+                    x = Integer.parseInt(c.getValue());
+                    break;
+                }
+            }
+
             int y = v;  // 사용자가 두 번째로 입력한 값
+
             // String op = (String) application.getAttribute("operator");
-            String op = (String) session.getAttribute("operator");
+            //String op = (String) session.getAttribute("operator");
+            String op = "";
+            for (Cookie c : cookies) {
+                if (c.getName().equals("operator")) {
+                    op = c.getValue();
+                    break;
+                }
+            }
 
             int result = 0;
 
@@ -55,8 +70,14 @@ public class Calc2 extends HttpServlet {
         else {
             //application.setAttribute("value", v);
             //application.setAttribute("operator", operator);
-            session.setAttribute("value", v);
-            session.setAttribute("operator", operator);
+
+            //session.setAttribute("value", v);
+            //session.setAttribute("operator", operator);
+
+            Cookie valueCookie = new Cookie("value", String.valueOf(v));
+            Cookie operatorCookie = new Cookie("operator", operator);
+            resp.addCookie(valueCookie);
+            resp.addCookie(operatorCookie);
         }
 
 
