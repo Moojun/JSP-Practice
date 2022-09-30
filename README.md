@@ -19,8 +19,18 @@
 
 
 
+<br>
+
+
+
 ### 강의 참고사항(17강)
 * [Get vs Post 차이점 참고 링크](https://velog.io/@songyouhyun/Get%EA%B3%BC-Post%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%95%84%EC%8B%9C%EB%82%98%EC%9A%94)
+
+
+
+<br>
+
+
 
 
 ### 강의 참고사항(25강)
@@ -30,6 +40,10 @@
   * cookie
   * hidden input
   * querystring
+
+<br>
+
+
 
 ### 강의 참고사항(28강. WAS가 현재 사용자(Session)을 인식하는 방식)
 
@@ -52,3 +66,30 @@ long getLastAccessedTime() // 마지막 요청 시간. 1970년 1월 1일을 시�
   
   
 ```
+
+
+
+### 강의 참고사항(32강. Application/Session/Cookie 정리)
+
+###### application
+
+* 사용범위: ***전역 범위 ***에서 사용하는 저장 공간
+* 생명주기: ***WAS(Web Application Service)*** 가 시작해서 종료할 때 까지
+* 저장위치: WAS 서버의 메모리
+
+###### session
+
+* 사용범위: ***세션 범위*** 에서 사용하는 저장 공간
+* 생명주기: ***세션*** 이 시작해서 종료할 때 까지
+* 저장위치: WAS 서버의 메모리
+
+###### cookie
+
+* 사용범위: ***Web Browser*** 별 지정한 ***path 범주*** 공간
+* 생명주기: ***Browser에 전달한 시간*** 부터 ***만료시간*** 까지
+* 저장위치: Web Browser의 메모리 또는 파일
+
+
+
+저장 기간이 긴 경우, 특정 url(범위) 에서만 사용하는 경우는 cookie를 사용한다.
+
