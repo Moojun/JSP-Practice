@@ -77,6 +77,7 @@ public class Calc2 extends HttpServlet {
             Cookie valueCookie = new Cookie("value", String.valueOf(v));
             Cookie operatorCookie = new Cookie("operator", operator);
             valueCookie.setPath("/calc2");
+            valueCookie.setMaxAge(24 * 60 * 60);    // 만료 날짜. 단위: 초. 해당 기간 동안은 브라우저가 닫혀도 쿠기가 남아있다.
             operatorCookie.setPath("/calc2");
             resp.addCookie(valueCookie);
             resp.addCookie(operatorCookie);
