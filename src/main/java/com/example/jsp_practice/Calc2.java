@@ -76,6 +76,8 @@ public class Calc2 extends HttpServlet {
 
             Cookie valueCookie = new Cookie("value", String.valueOf(v));
             Cookie operatorCookie = new Cookie("operator", operator);
+            valueCookie.setPath("/calc2");
+            operatorCookie.setPath("/calc2");
             resp.addCookie(valueCookie);
             resp.addCookie(operatorCookie);
         }
