@@ -26,6 +26,9 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // https://mvnrepository.com/artifact/org.graalvm.js/js
+    implementation group: 'org.graalvm.js', name: 'js', version: '19.2.0.1'
 }
 
 test {

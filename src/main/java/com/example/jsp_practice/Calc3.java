@@ -1,5 +1,8 @@
 package com.example.jsp_practice;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -7,88 +10,50 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import org.graalvm.polyglot.Context;
 
 @WebServlet("/calc3")
 public class Calc3 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html; charset=UTF-8");
-
-        //ServletContext application = req.getServletContext();
-        //HttpSession session = req.getSession();
         Cookie [] cookies = req.getCookies();
 
-        PrintWriter out = resp.getWriter();
-
-        String v_ = req.getParameter("value");
+        String value = req.getParameter("value");
         String operator = req.getParameter("operator");
+        String dot = req.getParameter("dot");
 
-        int v = 0;
-        if (!v_.equals(""))
-            v = Integer.parseInt(v_);
-
-        // 계산
-        if (operator.equals("=")) {
-
-            //int x = (Integer) application.getAttribute("value");    // 담겨있던 값
-            //int x = (Integer) session.getAttribute("value");    // 담겨있던 값
-
-            int x = 0;
+        String exp = "";
+        if (cookies != null) {
             for (Cookie c : cookies) {
-                if (c.getName().equals("value")) {
-                    x = Integer.parseInt(c.getValue());
+                if (c.getName().equals("exp")) {
+                    exp = c.getValue();
                     break;
                 }
             }
+        }
 
-            int y = v;  // 사용자가 두 번째로 입력한 값
-
-            // String op = (String) application.getAttribute("operator");
-            //String op = (String) session.getAttribute("operator");
-            String op = "";
-            for (Cookie c : cookies) {
-                if (c.getName().equals("operator")) {
-                    op = c.getValue();
-                    break;
-                }
+        if (operator != null && operator.equals("=")) {
+            // 참고 링크: https://madplay.github.io/post/call-javascript-function-from-java-using-graalvm
+            try (Context context = Context.create("js")) {
+                exp = String.valueOf(context.eval("js", exp));
+            } catch (Exception e) {
+                System.err.println();
             }
-
-            int result = 0;
-
-            if (op.equals("+")){
-                result = x + y;
-            }
-            else {
-                result = x - y;
-            }
-
-            out.println("계산 결과는 : " + result);
 
         }
-        // 값을 저장
         else {
-            //application.setAttribute("value", v);
-            //application.setAttribute("operator", operator);
-
-            //session.setAttribute("value", v);
-            //session.setAttribute("operator", operator);
-
-            Cookie valueCookie = new Cookie("value", String.valueOf(v));
-            Cookie operatorCookie = new Cookie("operator", operator);
-            valueCookie.setPath("/calc2");
-            valueCookie.setMaxAge(24 * 60 * 60);    // 만료 날짜. 단위: 초. 해당 기간 동안은 브라우저가 닫혀도 쿠기가 남아있다.
-            operatorCookie.setPath("/calc2");
-            resp.addCookie(valueCookie);
-            resp.addCookie(operatorCookie);
-
-            resp.sendRedirect("calc2.html");
+            exp += (value == null) ? "" : value;
+            exp += (operator == null) ? "" : operator;
+            exp += (dot == null) ? "" : dot;
         }
 
+        Cookie expCookie = new Cookie("exp", exp);
 
-
+        resp.addCookie(expCookie);
+        resp.sendRedirect("calcpage");
 
     }
+
 }
