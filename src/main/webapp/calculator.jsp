@@ -22,6 +22,13 @@ y의 값은: <%= y%>
 
 --%>
 
+<%
+  int x = 3;
+  int y = 4;
+  // int page = 3; // JSP 내장 객체
+  // 내장객체란, JSP가 만들어낸 서블릿 안에 있는 미리 선언된 변수
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
