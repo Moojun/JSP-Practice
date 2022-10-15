@@ -1,7 +1,26 @@
-<%
-int x = 3;
-int y = 4;
+<%--
+코드 블럭의 종류 1: 출력 코드
+y = x + 3
+
+코드 블럭의 종류 2: 코드 블록
+<% y = x + 3 %>
+
+코드 블럭의 종류 3: 코드 블록
+y의 값은: <% out.print(y) %>
+y의 값은: <%= y%>
+
+코드 블럭의 종류 4: 선언부(Declaration)
+<%!
+  public int sum(int a, int b) {
+    return a + b;
+  }
 %>
+
+코드 블럭의 종류 5: 초기 설정을 위한 page 지시자
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8" %>
+
+--%>
 
 <!DOCTYPE html>
 <html lang="en">
