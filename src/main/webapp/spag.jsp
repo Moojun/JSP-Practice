@@ -16,7 +16,7 @@
     ${notice.title}<br>
     ${result}<br>               <%-- hello 출력됨 --%>
 
-    ${param.n} <br>
+    ${param.n/2} <br>
     ${header.accept} <br>
 </body>
 </html>
