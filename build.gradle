@@ -29,6 +29,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.graalvm.js/js
     implementation group: 'org.graalvm.js', name: 'js', version: '19.2.0.1'
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
 }
 
 test {

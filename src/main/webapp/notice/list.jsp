@@ -1,5 +1,22 @@
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.Statement" %>
+<%@ page import="java.sql.ResultSet" %>
 <%@ page language="java" contentType ="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
+		 pageEncoding="UTF-8"
+%>
+<%
+	Class.forName("com.mysql.cj.jdbc.Driver");
+
+	String url = "jdbc:mysql://localhost/newlecture";
+	String user = "root";
+	String password = "mac";
+	String sql = "select * from notice";
+
+	Connection con = DriverManager.getConnection(url, user, password);
+	Statement st = con.createStatement();
+	ResultSet rs = st.executeQuery(sql);
+
 %>
 
 <!DOCTYPE html>
@@ -175,16 +192,16 @@
 					</thead>
 					<tbody>
 
-					<% for (int i = 0; i < 10; i++) {  %>
+					<% while(rs.next()) {  %>
 
 					<tr>
-						<td><%= i + 1 %></td>
-						<td class="title indent text-align-left"><a href="detail.html">스프링 8강까지의 예제 코드</a></td>
-						<td>newlec</td>
+						<td><%= rs.getInt("id") %></td>
+						<td class="title indent text-align-left"><a href="detail.html"><%= rs.getString("title")%>></a></td>
+						<td><%= rs.getString("writer_id")%></td>
 						<td>
-							2019-08-18
+							<%= rs.getDate("regdate")%>>
 						</td>
-						<td>146</td>
+						<td><%= rs.getInt("hit")%></td>
 					</tr>
 
 					<% } %>
@@ -263,3 +280,8 @@
     </body>
     
     </html>
+<%
+	rs.close();
+	st.close();
+	con.close();
+%>
