@@ -1,4 +1,9 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Connection" %>
+
 <%@ page language="java" contentType ="text/html; charset=UTF-8"
          pageEncoding="UTF-8"
 %>
@@ -26,6 +31,16 @@
     ResultSet rs = st.executeQuery(sql);
      */
 
+    String title = rs.getString("title");
+    String writerId = rs.getString("writer_id");
+    Date regDate = rs.getDate("regdate");
+    int hit = rs.getInt("hit");
+    String files = rs.getString("files");
+    String content = rs.getString("content");
+
+    rs.close();
+    pst.close();
+    con.close();
 %>
 
 <!DOCTYPE html>
@@ -178,30 +193,30 @@
 								<tr>
 									<th>제목</th>
 									<td class="text-align-left text-indent text-strong text-orange" colspan="3">
-                                        <%= rs.getString("title")%>
+                                        <%= title %>
                                     </td>
 								</tr>
 								<tr>
 									<th>작성일</th>
 									<td class="text-align-left text-indent" colspan="3">
-                                        <%= rs.getDate("regdate")%>>
+                                        <%= regDate %>
                                     </td>
 								</tr>
 								<tr>
 									<th>작성자</th>
-									<td><%= rs.getString("writer_id")%></td>
+									<td><%= writerId%></td>
 									<th>조회수</th>
-									<td><%= rs.getInt("hit")%></td>
+									<td><%=hit%></td>
 								</tr>
 								<tr>
 									<th>첨부파일</th>
 									<td colspan="3">
-                                        <%= rs.getString("files")%>
+                                        <%=files%>
                                     </td>
 								</tr>
 								<tr class="content">
 									<td colspan="4">
-                                        <%= rs.getString("content")%>
+                                        <%= content %>
                                         </td>
 								</tr>
 							</tbody>
@@ -277,8 +292,3 @@
     
     </html>
 
-<%
-    rs.close();
-    pst.close();
-    con.close();
-%>
