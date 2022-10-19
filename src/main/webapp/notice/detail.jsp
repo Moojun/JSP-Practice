@@ -152,30 +152,30 @@
 								<tr>
 									<th>제목</th>
 									<td class="text-align-left text-indent text-strong text-orange" colspan="3">
-                                        <%= request.getAttribute("title") %>
+                                        ${n.title}
                                     </td>
 								</tr>
 								<tr>
 									<th>작성일</th>
 									<td class="text-align-left text-indent" colspan="3">
-                                        <%= request.getAttribute("regDate") %>
+                                        ${n.regDate}
                                     </td>
 								</tr>
 								<tr>
 									<th>작성자</th>
-									<td><%= request.getAttribute("writerId")%></td>
+									<td> ${n.writerId}</td>
 									<th>조회수</th>
-									<td><%=request.getAttribute("hit")%></td>
+									<td>${n.hit}</td>
 								</tr>
 								<tr>
 									<th>첨부파일</th>
 									<td colspan="3">
-                                        <%=request.getAttribute("files")%>
+                                        ${n.files}
                                     </td>
 								</tr>
 								<tr class="content">
 									<td colspan="4">
-                                        <%= request.getAttribute("content") %>
+                                        ${n.content}
                                         </td>
 								</tr>
 							</tbody>

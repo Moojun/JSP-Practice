@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Date;
 
+import com.example.jsp_practice.entity.Notice;
+
 @WebServlet("/notice/detail")
 public class NoticeDetailController extends HttpServlet {
 
@@ -40,12 +42,17 @@ public class NoticeDetailController extends HttpServlet {
             String files = rs.getString("files");
             String content = rs.getString("content");
 
+            Notice notice = new Notice(id, title, writerId, regDate, hit, files, content);
+            request.setAttribute("n", notice);
+
+            /*
             request.setAttribute("title", title);
             request.setAttribute("writerId", writerId);
             request.setAttribute("regDate", regDate);
             request.setAttribute("hit", hit);
             request.setAttribute("files", files);
             request.setAttribute("content", content);
+             */
 
             rs.close();
             pst.close();
