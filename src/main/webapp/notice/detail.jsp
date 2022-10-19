@@ -1,47 +1,6 @@
-<%@ page import="java.util.Date" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.Connection" %>
-
 <%@ page language="java" contentType ="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"
-%>
+         pageEncoding="UTF-8" %>
 
-<%
-    int id = Integer.parseInt(request.getParameter("id"));
-
-    Class.forName("com.mysql.cj.jdbc.Driver");
-
-    String url = "jdbc:mysql://localhost/newlecture";
-    String user = "root";
-    String password = "mac";
-    String sql = "select * from notice where id= ?";
-
-    Connection con = DriverManager.getConnection(url, user, password);
-    PreparedStatement pst = con.prepareStatement(sql);
-    pst.setInt(1, id);
-    ResultSet rs = pst.executeQuery();
-
-    rs.next();  // 서버쪽에 있는 실행 결과에서, 레코드 하나를 가져옴
-
-    /*
-    cf > PreparedStatement 과 Statement 의 동작 방식이 다름
-    Statement st = con.createStatement();
-    ResultSet rs = st.executeQuery(sql);
-     */
-
-    String title = rs.getString("title");
-    String writerId = rs.getString("writer_id");
-    Date regDate = rs.getDate("regdate");
-    int hit = rs.getInt("hit");
-    String files = rs.getString("files");
-    String content = rs.getString("content");
-
-    rs.close();
-    pst.close();
-    con.close();
-%>
 
 <!DOCTYPE html>
 <html>
@@ -193,30 +152,30 @@
 								<tr>
 									<th>제목</th>
 									<td class="text-align-left text-indent text-strong text-orange" colspan="3">
-                                        <%= title %>
+                                        <%= request.getAttribute("title") %>
                                     </td>
 								</tr>
 								<tr>
 									<th>작성일</th>
 									<td class="text-align-left text-indent" colspan="3">
-                                        <%= regDate %>
+                                        <%= request.getAttribute("regDate") %>
                                     </td>
 								</tr>
 								<tr>
 									<th>작성자</th>
-									<td><%= writerId%></td>
+									<td><%= request.getAttribute("writerId")%></td>
 									<th>조회수</th>
-									<td><%=hit%></td>
+									<td><%=request.getAttribute("hit")%></td>
 								</tr>
 								<tr>
 									<th>첨부파일</th>
 									<td colspan="3">
-                                        <%=files%>
+                                        <%=request.getAttribute("files")%>
                                     </td>
 								</tr>
 								<tr class="content">
 									<td colspan="4">
-                                        <%= content %>
+                                        <%= request.getAttribute("content") %>
                                         </td>
 								</tr>
 							</tbody>
