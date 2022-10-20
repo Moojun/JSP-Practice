@@ -1,27 +1,32 @@
+<%@ page import="com.example.jsp_practice.entity.Notice" %>
+<%@ page import="java.util.List" %>
+<%@ page language="java" contentType ="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"
+%>
+
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<!-- <meta name="viewport" content="width=device-width,initial-scale=1"> -->
-<title>코딩 전문가를 만들기 위한 온라인 강의 시스템</title>
-<link href="/css/admin/layout.css" type="text/css" rel="stylesheet" />
-<style>
+    <title>코딩 전문가를 만들기 위한 온라인 강의 시스템</title>
+    <meta charset="UTF-8">
+    <title>공지사항목록</title>
     
-    #visual .content-container{	
-        height:inherit;
-        display:flex; 
-        align-items: center;
-        
-        background: url("/images/mypage/visual.png") no-repeat center;
-    }
-</style>
+    <link href="/css/customer/layout.css" type="text/css" rel="stylesheet" />
+    <style>
+    
+        #visual .content-container{	
+            height:inherit;
+            display:flex; 
+            align-items: center;
+            
+            background: url("../../images/customer/visual.png") no-repeat center;
+        }
+    </style>
 </head>
+
 <body>
-	<!-- header 부분 -->
-	
-
-
-
+    <!-- header 부분 -->
 
     <header id="header">
         
@@ -42,6 +47,7 @@
                     <h1>메인메뉴</h1>
                     <ul>
                         <li><a href="/guide">학습가이드</a></li>
+
                         <li><a href="/course">강좌선택</a></li>
                         <li><a href="/answeris/index">AnswerIs</a></li>
                     </ul>
@@ -65,8 +71,8 @@
                         <h1 class="hidden">회원메뉴</h1>
                         <ul>
                             <li><a href="/index.html">HOME</a></li>
-                            <li><a href="/member/login.html">로그인</a></li>
-                            <li><a href="/member/agree.html">회원가입</a></li>
+                            <li><a href="/WEB-INF/view/member/login.html">로그인</a></li>
+                            <li><a href="/WEB-INF/view/member/agree.html">회원가입</a></li>
                         </ul>
                     </nav>
 
@@ -74,7 +80,7 @@
                         <h1 class="hidden">고객메뉴</h1>
                         <ul class="linear-layout">
                             <li><a href="/member/home"><img src="/images/txt-mypage.png" alt="마이페이지" /></a></li>
-                            <li><a href="/notice/list.html"><img src="/images/txt-customer.png" alt="고객센터" /></a></li>
+                            <li><a href="/WEB-INF/view/notice/list.html"><img src="/images/txt-customer.png" alt="고객센터" /></a></li>
                         </ul>
                     </nav>
 
@@ -97,55 +103,138 @@
 
 			<!-- --------------------------- aside --------------------------------------- -->
 			<!-- aside 부분 -->
-			
 
 
 			<aside class="aside">
-				<h1>ADMIN PAGE</h1>
+				<h1>고객센터</h1>
 
 				<nav class="menu text-menu first margin-top">
-					<h1>마이페이지</h1>
+					<h1>고객센터메뉴</h1>
 					<ul>
-						<li><a href="/admin/index.html">관리자홈</a></li>						
-						<li><a href="/teacher/index.html">선생님페이지</a></li>
-						<li><a href="/student/index.html">수강생페이지</a></li>
+						<li><a class="current"  href="/customer/notice">공지사항</a></li>
+						<li><a class=""  href="/customer/faq">자주하는 질문</a></li>
+						<li><a class="" href="/customer/question">수강문의</a></li>
+						<li><a class="" href="/customer/event">이벤트</a></li>
+						
 					</ul>
 				</nav>
-				
-				<nav class="menu text-menu">
-					<h1>알림관리</h1>
-					<ul>						
-						<li><a href="/admin/board/notice/list.html">공지사항</a></li>				
-					</ul>
-				</nav>
-								
+
+
+	<nav class="menu">
+		<h1>협력업체</h1>
+		<ul>
+			<li><a target="_blank" href="http://www.notepubs.com"><img src="/images/notepubs.png" alt="노트펍스" /></a></li>
+			<li><a target="_blank" href="http://www.namoolab.com"><img src="/images/namoolab.png" alt="나무랩연구소" /></a></li>
+						
+		</ul>
+	</nav>
+					
 			</aside>
 			<!-- --------------------------- main --------------------------------------- -->
+
+
+
+		<main class="main">
+			<h2 class="main title">공지사항</h2>
 			
-			<!-- content 부분 -->
+			<div class="breadcrumb">
+				<h3 class="hidden">경로</h3>
+				<ul>
+					<li>home</li>
+					<li>고객센터</li>
+					<li>공지사항</li>
+				</ul>
+			</div>
 			
-	<main class="main">
-		<h2 class="main title">관리자홈</h2>
+			<div class="search-form margin-top first align-right">
+				<h3 class="hidden">공지사항 검색폼</h3>
+				<form class="table-form">
+					<fieldset>
+						<legend class="hidden">공지사항 검색 필드</legend>
+						<label class="hidden">검색분류</label>
+						<select name="f">
+							<option  value="title">제목</option>
+							<option  value="writerId">작성자</option>
+						</select> 
+						<label class="hidden">검색어</label>
+						<input type="text" name="q" value=""/>
+						<input class="btn btn-search" type="submit" value="검색" />
+					</fieldset>
+				</form>
+			</div>
+			
+			<div class="notice margin-top">
+				<h3 class="hidden">공지사항 목록</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="w60">번호</th>
+							<th class="expand">제목</th>
+							<th class="w100">작성자</th>
+							<th class="w100">작성일</th>
+							<th class="w60">조회수</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					<%
+						List<Notice> list = (List<Notice>) request.getAttribute("list");
+						for (Notice n : list) {
+							pageContext.setAttribute("n", n);
+						 %>
+
+					<tr>
+						<td>${n.id}</td>
+						<td class="title indent text-align-left"><a href="detail?id=${n.id}">${n.title}</a></td>
+						<td>${n.writerId}</td>
+						<td>
+							${n.regDate}
+						</td>
+						<td>${n.hit}</td>
+					</tr>
+					<% } %>
+
+
+					
+					
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="indexer margin-top align-right">
+				<h3 class="hidden">현재 페이지</h3>
+				<div><span class="text-orange text-strong">1</span> / 1 pages</div>
+			</div>
+
+			<div class="margin-top align-center pager">	
 		
-		<div class="breadcrumb">
-			<h3 class="hidden">breadlet</h3>
-			<ul>
-				<li>home</li>
-				<li>마이페이지</li>
-				<li>홈</li>
-			</ul>
-		</div>
+	<div>
 		
-		<div class="margin-top first">
 		
-		</div>
+		<span class="btn btn-prev" onclick="alert('이전 페이지가 없습니다.');">이전</span>
 		
-	</main>
+	</div>
+	<ul class="-list- center">
+		<li><a class="-text- orange bold" href="?p=1&t=&q=" >1</a></li>
+				
+	</ul>
+	<div>
+		
+		
+			<span class="btn btn-next" onclick="alert('다음 페이지가 없습니다.');">다음</span>
+		
+	</div>
+	
+			</div>
+		</main>
+		
 			
 		</div>
 	</div>
-	<!-- ------------------- <footer> --------------------------------------- -->
-	
+
+    <!-- ------------------- <footer> --------------------------------------- -->
+
+
 
         <footer id="footer">
             <div class="content-container">
@@ -177,5 +266,6 @@
                 </div>
             </div>
         </footer>
-</body>
-</html>
+    </body>
+    
+    </html>

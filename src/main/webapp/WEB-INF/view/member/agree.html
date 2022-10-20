@@ -64,8 +64,8 @@
                         <h1 class="hidden">회원메뉴</h1>
                         <ul>
                             <li><a href="/index.html">HOME</a></li>
-                            <li><a href="/member/login.html">로그인</a></li>
-                            <li><a href="/member/agree.html">회원가입</a></li>
+                            <li><a href="/WEB-INF/view/member/login.html">로그인</a></li>
+                            <li><a href="/WEB-INF/view/member/agree.html">회원가입</a></li>
                         </ul>
                     </nav>
 
@@ -73,7 +73,7 @@
                         <h1 class="hidden">고객메뉴</h1>
                         <ul class="linear-layout">
                             <li><a href="/member/home"><img src="/images/txt-mypage.png" alt="마이페이지" /></a></li>
-                            <li><a href="/notice/list.html"><img src="/images/txt-customer.png" alt="고객센터" /></a></li>
+                            <li><a href="/WEB-INF/view/notice/list.html"><img src="/images/txt-customer.png" alt="고객센터" /></a></li>
                         </ul>
                     </nav>
 
@@ -85,6 +85,7 @@
     </header>
 
 
+<script src="/resource/js/header.js"></script>
 	<!-- --------------------------- <visual> --------------------------------------- -->
 	<!-- visual 부분 -->
 	
@@ -106,10 +107,10 @@
 				<nav class="menu text-menu first margin-top">
 					<h1>회원메뉴</h1>
 					<ul>
-						<li><a href="/member/login.html">로그인</a></li>
-						<li><a href="/member/join.html">회원가입</a></li>
-						<li><a href="/member/">아이디찾기</a></li>
-						<li><a href="/member/t">비밀번호 재발급</a></li>
+						<li><a href="/WEB-INF/view/member/login.html">로그인</a></li>
+						<li><a href="/WEB-INF/view/member/join.html">회원가입</a></li>
+						<li><a href="/member/find-id">아이디찾기</a></li>
+						<li><a href="/member/pwd-reset">비밀번호 재발급</a></li>
 					</ul>
 				</nav>
 
@@ -119,8 +120,8 @@
 	<nav class="menu">
 		<h1>협력업체</h1>
 		<ul>
-			<li><a target="_blank" href="http://www.notepubs.com"><img src="../images/notepubs.png" alt="노트펍스" /></a></li>
-			<li><a target="_blank" href="http://www.namoolab.com"><img src="../images/namoolab.png" alt="나무랩연구소" /></a></li>
+			<li><a target="_blank" href="http://www.notepubs.com"><img src="../../../images/notepubs.png" alt="노트펍스" /></a></li>
+			<li><a target="_blank" href="http://www.namoolab.com"><img src="../../../images/namoolab.png" alt="나무랩연구소" /></a></li>
 		</ul>
 	</nav>
 
@@ -142,23 +143,59 @@
 			
 
 
-            <main>
-                <h2 class="main title">가입확인</h2>
-                
-                <div class="breadcrumb" style="margin-top:-20px;">
-                    <h3 class="hidden">경로</h3>
-                    <img src="../images/member/step3.png" alt="회원가입 3단계" />
-                </div>
-                
-                <div class="margin-top first" style="background: url('../images/member/bg-login.png') no-repeat center;height: 277px;">
-                    <div class="text-align-center">
-                        <img style="margin-left:170px; margin-top:70px;" alt="뉴렉처의 회원가입이 완료되었습니다." src="../images/member/txt-join-welcome.png">
-                    </div>
-                    <div class="text-align-center">
-                        <a class="btn" style="margin-left:170px; margin-top:50px;display:inline-block;width:83px;height: 53px;background: url('../images/member/btn-login.png') no-repeat center;" href="login.html">메인페이지로 이동합니다.</a>
-                    </div>
-                </div>
-            </main>
+
+<main>
+	<h2 class="main title">가입동의</h2>
+	
+	<div class="breadcrumb" style="margin-top:-20px;">
+		<h3 class="hidden">경로</h3>
+		<img src="../../../images/member/step1.png" alt="회원가입 1단계" />
+	</div>
+	
+	<div class="margin-top first">
+	
+		<div class="bg-light-gray border-gray padding" style="">
+        <div class="padding font-size-13 text-strong">
+            	뉴렉쳐의 <span class="text-orange">개인정보 수집 및 이용</span>에 대한 안내입니다. 불편하신 사항이 없으시도록 꼭 읽어주시기 바랍니다.
+        </div>
+        <div class="agree-content">
+            <textarea style="width:100%;height: 300px">[ 이용약관 제1장 - 총칙 ]
+
+
+
+
+            </textarea>
+        </div>
+    </div>	
+		
+		<form action="agree" method="post" class="margin-top">
+			<div>
+				<input type="checkbox" name="agree" value="true" /> 약관에 동의합니다.
+			</div>
+			<div class="margin-top text-align-center">
+				<input type="hidden" name="" value="" />
+				<input id="submit-button" class="btn-text btn-default" style="height: 40px; width: 100px; font-size: 13px;" type="submit" value="다음" />
+			</div>
+		</form>
+	</div>
+	
+</main>
+<script>
+	window.addEventListener("load", function() {
+		
+		var agreeButton = document.querySelector("form input[type='checkbox']");
+		var submitButton = document.querySelector("#submit-button");
+		
+		submitButton.onclick = function(e){			
+			
+			if(!agreeButton.checked){
+				alert("약관에 동의하셔야만 합니다.");			
+				e.preventDefault();		
+			}			
+		}
+		
+	});
+</script>
 
 			
 		</div>
@@ -197,5 +234,4 @@
                 </div>
             </div>
         </footer>
-</body>
 </html>
