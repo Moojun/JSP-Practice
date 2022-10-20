@@ -1,22 +1,7 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="java.sql.Statement" %>
-<%@ page import="java.sql.ResultSet" %>
+<%@ page import="com.example.jsp_practice.entity.Notice" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType ="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"
-%>
-<%
-	Class.forName("com.mysql.cj.jdbc.Driver");
-
-	String url = "jdbc:mysql://localhost/newlecture";
-	String user = "root";
-	String password = "mac";
-	String sql = "select * from notice";
-
-	Connection con = DriverManager.getConnection(url, user, password);
-	Statement st = con.createStatement();
-	ResultSet rs = st.executeQuery(sql);
-
 %>
 
 <!DOCTYPE html>
@@ -192,19 +177,23 @@
 					</thead>
 					<tbody>
 
-					<% while(rs.next()) {  %>
+					<%
+						List<Notice> list = (List<Notice>) request.getAttribute("list");
+						for (Notice n : list) {
+							pageContext.setAttribute("n", n);
+						 %>
 
 					<tr>
-						<td><%= rs.getInt("id") %></td>
-						<td class="title indent text-align-left"><a href="detail?id=<%= rs.getInt("id") %>"><%= rs.getString("title")%>></a></td>
-						<td><%= rs.getString("writer_id")%></td>
+						<td>${n.id}</td>
+						<td class="title indent text-align-left"><a href="detail?id=${id}"></a>${n.title}</td>
+						<td>${n.writerId}</td>
 						<td>
-							<%= rs.getDate("regdate")%>>
+							${n.regDate}
 						</td>
-						<td><%= rs.getInt("hit")%></td>
+						<td>${n.hit}</td>
 					</tr>
-
 					<% } %>
+
 
 					
 					
@@ -280,8 +269,3 @@
     </body>
     
     </html>
-<%
-	rs.close();
-	st.close();
-	con.close();
-%>
