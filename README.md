@@ -73,7 +73,7 @@ long getLastAccessedTime() // 마지막 요청 시간. 1970년 1월 1일을 시�
 
 ###### application
 
-* 사용범위: ***전역 범위 ***에서 사용하는 저장 공간
+* 사용범위: ***전역 범위*** 에서 사용하는 저장 공간
 * 생명주기: ***WAS(Web Application Service)*** 가 시작해서 종료할 때 까지
 * 저장위치: WAS 서버의 메모리
 
@@ -93,3 +93,42 @@ long getLastAccessedTime() // 마지막 요청 시간. 1970년 1월 1일을 시�
 
 저장 기간이 긴 경우, 특정 url(범위) 에서만 사용하는 경우는 cookie를 사용한다.
 
+
+
+### 강의 참고사항(57강). EL의 키워드에 관해
+
+```jsp
+<%
+// list라는 녀석을 사용할수 없다(지역변수가 없기때문에). request라는 녀석에게서 꺼내온다(getAttribute). Object로 뽑아지는 녀석을 list로 형변환해준다.
+List<Notice> list = (List<Notice>)request.getAttribute("list");					
+for(Notice n : list) {
+  	pageContext.setAttribute("n", n);
+%>
+
+
+<!-- 
+${n.id}: EL에서 사용하는 n은 저장소에 담겨져 있는 키워드이다. 지역변수 n이 아니다. 
+따라서 위에서 pageContext.setAttribute("n", n)을 통해 page 범위 저장소에 담아준다. 
+-->
+<tr>													
+	<td>${n.id}</td>										
+	<td class="title indent text-align-left"><a href="detail?id=${n.id}">${n.title}</a></td>
+	<td>${n.writerId}</td>											
+	<td>${n.regdate}</td>									
+	<td>${n.hit}</td>											
+</tr>
+```
+
+
+
+### 강의 참고사항(58강). View page 은닉하기
+
+* WEB-INF 하위에 .jsp 파일을 둔다. 
+
+
+
+### 강의 참고사항(61강). 중간 정리
+
+* 이미지: 유튜브 강의 참고
+
+<img width="889" alt="Screenshot 2022-11-14 at 2 17 34 PM" src="https://user-images.githubusercontent.com/80478750/201817381-01f8d034-1e26-45db-a1fc-fdc1961a8e38.png">
