@@ -166,7 +166,9 @@
 									<th>작성자</th>
 									<td> ${n.writerId}</td>
 									<th>조회수</th>
-									<td>${n.hit}</td>
+									<td>
+                                        <fmt:formatNumber type="number" value="${n.hit}" />
+                                    </td>
 								</tr>
 								<tr>
 									<th>첨부파일</th>
