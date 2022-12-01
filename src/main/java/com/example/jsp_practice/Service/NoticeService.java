@@ -12,6 +12,12 @@ public class NoticeService {
     }
 
     public List<Notice> getNoticeList(int page) {
+        String sql = "SELECT * FROM (" +
+                " SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, N.*" +
+                " FROM (SELECT * FROM BOARD ORDER BY REGDATE DESC) AS N" +
+                ") AS A" +
+                " WHERE (ROWNUM BETWEEN 6 AND 10)" +
+                " AND  (@ROWNUM := 0) = 0;";
 
         return getNoticeList("title", "", page);
     }
@@ -21,11 +27,17 @@ public class NoticeService {
     }
     public int getNoticeCount() {
 
-        return getNoticeCount("", "");
+        return getNoticeCount("title", "");
     }
 
     public int getNoticeCount(String filed, String query) {
-
+        String sql = "SELECT * FROM (" +
+                " SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, N.*" +
+                " FROM (SELECT * FROM BOARD ORDER BY REGDATE DESC) AS N" +
+                ") AS A" +
+                " WHERE (ROWNUM BETWEEN 6 AND 10)" +
+                " AND  (@ROWNUM := 0) = 0;";
+        
         return 0;
     }
 
