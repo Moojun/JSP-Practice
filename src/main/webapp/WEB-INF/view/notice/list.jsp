@@ -199,22 +199,20 @@
 					</c:forEach>
 					<%-- <% } %> --%>
 
-
-					
-					
 					</tbody>
 				</table>
 			</div>
 			
 			<div class="indexer margin-top align-right">
 				<h3 class="hidden">현재 페이지</h3>
-				<div><span class="text-orange text-strong">1</span> / 1 pages</div>
+<%--				EL 의 경우 empty 하나만으로 빈 문자열 or null 인지 모두 판단 가능--%>
+				<div><span class="text-orange text-strong"> ${(empty param.p) ? 1 : param.p}</span> / 1 pages</div>
 			</div>
 
 			<div class="margin-top align-center pager">	
 		
 	<div>
-		<c:set var="page" value="${param.p == null ? 1 : param.p}" />
+		<c:set var="page" value="${(empty param.p) ? 1 : param.p}" />
 		<c:set var="startNum" value="${page - (page - 1) % 5}" />
 
 		<%--				임의로 lastNum을 지정--%>
@@ -231,7 +229,8 @@
 
 	<ul class="-list- center">
 		<c:forEach var="i" begin="0" end="4">
-		<li><a class="-text- orange bold" href="?p=${startNum+i}&f=${param.f}&q=${param.q}" >${startNum + i}</a></li>
+		<li><a class="-text- ${(page == (startNum + i)) ? 'orange' : ''} bold"
+			   href="?p=${startNum+i}&f=${param.f}&q=${param.q}" >${startNum + i}</a></li>
 		</c:forEach>
 	</ul>
 	<div>
