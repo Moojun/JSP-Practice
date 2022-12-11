@@ -84,11 +84,9 @@ public class NoticeService {
 
         int count = 0;
 
-        String sql = "SELECT COUNT(id) AS COUNT FROM (" +
-                " SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, N.*" +
-                " FROM (SELECT * FROM notice WHERE " + field + " LIKE ? " +
-                " ORDER BY REGDATE desc) AS N " +
-                " AND (@ROWNUM := 0) = 0";
+        String sql = "SELECT COUNT(*) AS COUNT FROM( " +
+                " SELECT ROW_NUMBER() OVER(ORDER BY ID DESC) AS ROWNUM, " +
+                "    NOTICE.* FROM NOTICE where " + field + " LIKE ?  ) TMP";
 
         String url = "jdbc:mysql://localhost/newlecture";
 
@@ -103,7 +101,9 @@ public class NoticeService {
             pst.setString(1, "%" + query + "%");    // 검색을 위한 패턴 (query)
             ResultSet rs = pst.executeQuery();
 
-            count = rs.getInt("COUNT");
+            if (rs.next()) {
+                count = rs.getInt("COUNT");
+            }
 
             rs.close();
             pst.close();
