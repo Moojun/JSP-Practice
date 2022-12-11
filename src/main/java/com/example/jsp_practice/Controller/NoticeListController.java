@@ -21,20 +21,25 @@ public class NoticeListController extends HttpServlet {
         // 전달되어 오는 query: list?f=title&q=a
         String field_ = request.getParameter("f");  // 사용자의 검색 기준 전달받음
         String query_ = request.getParameter("q");  // 사용자의 검색어 입력 받음
+        String page_ = request.getParameter("p");   // null 이 들어올 수 있으므로, String 으로 먼저 받아야함
 
         String field = "title";
-        if (field_ != null) {
+        if (field_ != null && !field_.equals("")) {
             field = field_;
         }
 
         String query = "";
-        if (query_ != null) {
+        if (query_ != null && !query_.equals("")) {
             query = query_;
         }
 
+        int page = 1;
+        if (page_ != null && !page_.equals("")) {
+            page = Integer.parseInt(page_);
+        }
 
         NoticeService service = new NoticeService();
-        List<Notice> list = service.getNoticeList(field, query, 1);
+        List<Notice> list = service.getNoticeList(field, query, page);
 
         request.setAttribute("list", list);
 
