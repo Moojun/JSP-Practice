@@ -18,8 +18,23 @@ public class NoticeListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // 전달되어 오는 query: list?f=title&q=a
+        String field_ = request.getParameter("f");  // 사용자의 검색 기준 전달받음
+        String query_ = request.getParameter("q");  // 사용자의 검색어 입력 받음
+
+        String field = "title";
+        if (field_ != null) {
+            field = field_;
+        }
+
+        String query = "";
+        if (query_ != null) {
+            query = query_;
+        }
+
+
         NoticeService service = new NoticeService();
-        List<Notice> list = service.getNoticeList();
+        List<Notice> list = service.getNoticeList(field, query, 1);
 
         request.setAttribute("list", list);
 
