@@ -80,45 +80,175 @@ public class NoticeService {
         return getNoticeCount("title", "");
     }
 
-    public int getNoticeCount(String filed, String query) {
-        String sql = "SELECT * FROM (" +
-                " SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, N.*" +
-                " FROM (SELECT * FROM board ORDER BY regdate DESC) AS N" +
-                ") AS A" +
-                " WHERE (ROWNUM BETWEEN 6 AND 10)" +
-                " AND  (@ROWNUM := 0) = 0";
+    public int getNoticeCount(String field, String query) {
 
-        return 0;
+        int count = 0;
+
+        String sql = "SELECT COUNT(id) AS COUNT FROM (" +
+                " SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, N.*" +
+                " FROM (SELECT * FROM notice WHERE " + field + " LIKE ? " +
+                " ORDER BY REGDATE desc) AS N " +
+                " AND (@ROWNUM := 0) = 0";
+
+        String url = "jdbc:mysql://localhost/newlecture";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String user = "root";
+            String password = "mac";
+
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, "%" + query + "%");    // 검색을 위한 패턴 (query)
+            ResultSet rs = pst.executeQuery();
+
+            count = rs.getInt("COUNT");
+
+            rs.close();
+            pst.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
     }
 
     public Notice getNotice(int id) {
+
+        Notice notice = null;
+
         String sql = "SELECT * FROM board WHERE id = ?";
 
-        return null;
+        String url = "jdbc:mysql://localhost/newlecture";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String user = "root";
+            String password = "mac";
+
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int nid = rs.getInt("id");
+                String title = rs.getString("title");
+                String writerId = rs.getString("writer_id");
+                Date regDate = rs.getDate("regdate");
+                int hit = rs.getInt("hit");
+                String files = rs.getString("files");
+                String content = rs.getString("content");
+
+                notice = new Notice(nid, title, writerId, regDate, hit, files, content);
+
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return notice;
     }
 
     public Notice getNextNotice(int id) {
+        Notice notice = null;
+
         String sql = "SELECT @ROWNUM := @ROWNUM + 1 as ROWNUM, board.* " +
                 " FROM board, (SELECT @ROWNUM := 0) AS R" +
                 " WHERE id = any ( " +
                 " SELECT id FROM board " +
-                "    WHERE regdate > (SELECT regdate FROM board WHERE id = 3 )" +
+                "    WHERE regdate > (SELECT regdate FROM board WHERE id = ? )" +
                 ") " +
                 " ORDER BY @ROWNUM ASC" +
                 " LIMIT 1";
 
-        return null;
+        String url = "jdbc:mysql://localhost/newlecture";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String user = "root";
+            String password = "mac";
+
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int nid = rs.getInt("id");
+                String title = rs.getString("title");
+                String writerId = rs.getString("writer_id");
+                Date regDate = rs.getDate("regdate");
+                int hit = rs.getInt("hit");
+                String files = rs.getString("files");
+                String content = rs.getString("content");
+
+                notice = new Notice(nid, title, writerId, regDate, hit, files, content);
+
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return notice;
     }
 
     public Notice getPrevNotice(int id) {
+        Notice notice = null;
+
         String sql = "SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, A.* " +
                 "FROM (SELECT * FROM notice ORDER BY regdate DESC) AS A, " +
                 "(SELECT @ROWNUM := 0) AS R " +
                 "WHERE regdate <  ( " +
-                "SELECT regdate FROM notice WHERE id = 3 " +
+                "SELECT regdate FROM notice WHERE id = ? " +
                 ") " +
                 "LIMIT 1 ";
 
-        return null;
+        String url = "jdbc:mysql://localhost/newlecture";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String user = "root";
+            String password = "mac";
+
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int nid = rs.getInt("id");
+                String title = rs.getString("title");
+                String writerId = rs.getString("writer_id");
+                Date regDate = rs.getDate("regdate");
+                int hit = rs.getInt("hit");
+                String files = rs.getString("files");
+                String content = rs.getString("content");
+
+                notice = new Notice(nid, title, writerId, regDate, hit, files, content);
+
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return notice;
     }
 }
