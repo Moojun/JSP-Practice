@@ -9,7 +9,6 @@
 
 <br>
 
-
 ### 강의 참고사항(11강)
 
 * Java Resources  -> src/main/java, WebContent -> webapps 로 기본 설정이 변경 됨. 
@@ -17,21 +16,12 @@
 * 프로젝트 이름에 우클릭 해야 하며 source folder는 src/main/java이다. (강의: src 폴더에 우클릭) - 우클릭 후 New>Servlet으로 해야한다. (강의: New >. Class) 
 * Nana Servlet을 호출하는 url 변경 시 web.xml에서 url-pattern 태그를 수정한다.
 
-
-
 <br>
-
-
 
 ### 강의 참고사항(17강)
 * [Get vs Post 차이점 참고 링크](https://velog.io/@songyouhyun/Get%EA%B3%BC-Post%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%95%84%EC%8B%9C%EB%82%98%EC%9A%94)
 
-
-
 <br>
-
-
-
 
 ### 강의 참고사항(25강)
 * 상태 유지를 위한 5가지 방법
@@ -43,14 +33,10 @@
 
 <br>
 
-
-
 ### 강의 참고사항(28강. WAS가 현재 사용자(Session)을 인식하는 방식)
 
 * 같은 브라우저(Chrome, etc) 이면 동일한 Session 값을 가진다. 하지만 브라우저를 닫으면 값이 사라진다. 다시 열면 SID가 사라진다. 
 * 다른 브라우저의 경우(ex. Chrome vs FireFox), SessionID 값이 다르다.
-
-
 
 세션 메소드
 
@@ -63,33 +49,29 @@ void setMaxInactiveInterval(int interval) // 세션 타임아웃을 정수(초)�
 boolean isNew() // 세션이 새로 생성되었는지를 확인
 Long getCreationTime() // 세션이 시작된 시간을 반환. 1970년 1월 1일을 시작으로 하는 밀리초
 long getLastAccessedTime() // 마지막 요청 시간. 1970년 1월 1일을 시작으로 하는 밀리초
-  
-  
 ```
 
 
 
 ### 강의 참고사항(32강. Application/Session/Cookie 정리)
 
-###### application
+#### application
 
 * 사용범위: ***전역 범위*** 에서 사용하는 저장 공간
 * 생명주기: ***WAS(Web Application Service)*** 가 시작해서 종료할 때 까지
 * 저장위치: WAS 서버의 메모리
 
-###### session
+#### session
 
 * 사용범위: ***세션 범위*** 에서 사용하는 저장 공간
 * 생명주기: ***세션*** 이 시작해서 종료할 때 까지
 * 저장위치: WAS 서버의 메모리
 
-###### cookie
+#### cookie
 
 * 사용범위: ***Web Browser*** 별 지정한 ***path 범주*** 공간
 * 생명주기: ***Browser에 전달한 시간*** 부터 ***만료시간*** 까지
 * 저장위치: Web Browser의 메모리 또는 파일
-
-
 
 저장 기간이 긴 경우, 특정 url(범위) 에서만 사용하는 경우는 cookie를 사용한다.
 
@@ -105,7 +87,6 @@ for(Notice n : list) {
   	pageContext.setAttribute("n", n);
 %>
 
-
 <!-- 
 ${n.id}: EL에서 사용하는 n은 저장소에 담겨져 있는 키워드이다. 지역변수 n이 아니다. 
 따라서 위에서 pageContext.setAttribute("n", n)을 통해 page 범위 저장소에 담아준다. 
@@ -119,11 +100,9 @@ ${n.id}: EL에서 사용하는 n은 저장소에 담겨져 있는 키워드이�
 </tr>
 ```
 
-
-
 ### 강의 참고사항(58강). View page 은닉하기
-
 * WEB-INF 하위에 .jsp 파일을 둔다. 
+
 
 
 
@@ -132,3 +111,74 @@ ${n.id}: EL에서 사용하는 n은 저장소에 담겨져 있는 키워드이�
 * 이미지: 유튜브 강의 참고
 
 <img width="889" alt="Screenshot 2022-11-14 at 2 17 34 PM" src="https://user-images.githubusercontent.com/80478750/201817381-01f8d034-1e26-45db-a1fc-fdc1961a8e38.png">
+
+
+
+### 강의 참고사항(72강 ~ 74강)
+
+```sql
+# 72: getNoticeList 메소드의 SQL 쿼리 작성하기
+## 1: 내가 작성한 쿼리
+SELECT * FROM (
+	SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, N.*
+	FROM (SELECT * FROM notice ORDER BY REGDATE DESC) AS N
+) AS A, (SELECT @ROWNUM := 0) AS B
+WHERE (ROWNUM BETWEEN 1 AND 5);
+
+## 2: 유튜브 강의 댓글 참고 쿼리
+SELECT * FROM(
+	SELECT	ROW_NUMBER() OVER(ORDER BY ID DESC) AS ROWNUM,
+    NOTICE.* FROM NOTICE) TMP
+WHERE ROWNUM BETWEEN 1 AND 5;
+
+
+# 73: getNextNotice 메소드의 SQL 쿼리 작성하기
+## 1: 내가 작성한 쿼리
+SELECT @ROWNUM := @ROWNUM + 1 as ROWNUM, notice.* 
+FROM notice, (SELECT @ROWNUM := 0) AS R
+WHERE id = any ( 
+	SELECT id FROM notice 
+    WHERE regdate > (SELECT regdate FROM notice WHERE id = 3 )
+)
+ORDER BY @ROWNUM ASC
+LIMIT 1;
+
+## 2: 유튜브 강의 댓글 참고 쿼리
+SELECT * FROM (
+SELECT @ROWNUM:= @ROWNUM + 1 AS ROWNUM ,notice.* 
+FROM (SELECT @ROWNUM:=0) r ,notice 
+WHERE regdate > (SELECT regdate FROM notice WHERE id=3)
+) list
+WHERE ROWNUM=1 ; 
+
+
+# 74: getPrevNotice 메소드의 SQL 쿼리 작성하기
+## 1: 내가 작성한 쿼리
+SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, A.*
+FROM (SELECT * FROM notice ORDER BY regdate DESC) AS A,
+(SELECT @ROWNUM := 0) AS R
+WHERE regdate <  ( 
+	SELECT regdate FROM notice WHERE id = 3
+)
+LIMIT 1;
+
+## 2: 유튜브 강의 댓글 참고 쿼리
+SELECT * FROM(
+SELECT @ROWNUM:=@ROWNUM + 1 AS ROWNUM , id FROM (
+SELECT @ROWNUM:=0) r , notice 
+  WHERE regdate < (SELECT regdate FROM notice WHERE id=3) 
+  ORDER BY id DESC)
+  list WHERE ROWNUM=1;
+```
+
+
+
+### 강의 참고사항(75강)
+
+field의 경우에는 pst.setString(1, filed) 와 같은 식으로 사용할 수 없다. 왜냐하면 filed는 column인데, pst.setString() 으로 넣게 되면, 
+
+```sql
+SELECT * FROM NOTICE WHERE 'title' ..
+```
+
+이런 식으로 column이 따옴표로 감싸져서 값으로 인식되게 된다. 따라서 오류가 발생함.
